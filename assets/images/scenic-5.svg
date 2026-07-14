@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#365a4a"/>
+      <stop offset="100%" stop-color="#86a36c"/>
+    </linearGradient>
+    <pattern id="p" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M0 40h80M40 0v80" stroke="#f2e5c4" stroke-opacity=".08"/>
+      <circle cx="40" cy="40" r="26" fill="none" stroke="#f2e5c4" stroke-opacity=".08"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#g)"/>
+  <rect width="1600" height="1000" fill="url(#p)"/>
+  <path d="M0 760C240 660 420 820 650 720s430-40 950-170v450H0Z" fill="#17130f" opacity=".25"/>
+  <circle cx="1270" cy="220" r="110" fill="#f2e5c4" opacity=".18"/>
+  <text x="110" y="760" fill="#fff" font-size="86" font-family="Microsoft YaHei, sans-serif" font-weight="700">园林景观</text>
+  <text x="115" y="835" fill="#fff" fill-opacity=".72" font-size="34" font-family="Microsoft YaHei, sans-serif">后续替换为真实照片</text>
+</svg>
