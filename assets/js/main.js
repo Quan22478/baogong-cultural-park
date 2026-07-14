@@ -58,39 +58,75 @@ document.querySelectorAll(".filter-btn").forEach(button => {
 });
 
 
-// 官方导览图和长图点击放大。
-const zoomableImages = document.querySelectorAll(".zoomable");
-if (zoomableImages.length) {
-  const modal = document.createElement("div");
-  modal.className = "image-modal";
-  modal.setAttribute("aria-hidden", "true");
-  modal.innerHTML = '<button type="button" aria-label="关闭大图">×</button><img alt="">';
-  document.body.appendChild(modal);
 
-  const modalImage = modal.querySelector("img");
-  const closeButton = modal.querySelector("button");
 
-  function closeModal() {
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden", "true");
-    modalImage.removeAttribute("src");
+
+// 全站正文图片预览：电脑单击/双击，手机轻点打开大图。
+const previewImages = document.querySelectorAll("main img:not([data-no-preview])");
+
+if (previewImages.length) {
+  const imageModal = document.createElement("div");
+  imageModal.className = "image-modal";
+  imageModal.setAttribute("aria-hidden", "true");
+  imageModal.innerHTML = `
+    <button class="image-modal-close" type="button" aria-label="关闭大图">×</button>
+    <img class="image-modal-content" alt="">
+    <div class="image-modal-tip">点击空白处或按 Esc 关闭</div>
+  `;
+  document.body.appendChild(imageModal);
+
+  const modalImage = imageModal.querySelector(".image-modal-content");
+  const closeButton = imageModal.querySelector(".image-modal-close");
+
+  function openImagePreview(image) {
+    modalImage.src = image.dataset.full || image.currentSrc || image.src;
+    modalImage.alt = image.alt || "景区图片大图";
+    imageModal.classList.add("open");
+    imageModal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
   }
 
-  zoomableImages.forEach(image => {
-    image.addEventListener("click", () => {
-      modalImage.src = image.dataset.full || image.src;
-      modalImage.alt = image.alt || "图片大图";
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
+  function closeImagePreview() {
+    imageModal.classList.remove("open");
+    imageModal.setAttribute("aria-hidden", "true");
+    modalImage.removeAttribute("src");
+    document.body.classList.remove("modal-open");
+  }
+
+  previewImages.forEach(image => {
+    image.classList.add("zoomable");
+    image.setAttribute("tabindex", "0");
+    image.setAttribute("role", "button");
+    image.setAttribute("aria-label", `${image.alt || "景区图片"}，点击查看大图`);
+
+    image.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openImagePreview(image);
+    });
+
+    image.addEventListener("dblclick", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openImagePreview(image);
+    });
+
+    image.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openImagePreview(image);
+      }
     });
   });
 
-  closeButton.addEventListener("click", closeModal);
-  modal.addEventListener("click", event => {
-    if (event.target === modal) closeModal();
+  closeButton.addEventListener("click", closeImagePreview);
+  imageModal.addEventListener("click", event => {
+    if (event.target === imageModal) closeImagePreview();
   });
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape") closeModal();
+    if (event.key === "Escape" && imageModal.classList.contains("open")) {
+      closeImagePreview();
+    }
   });
 }
 

@@ -1758,3 +1758,109 @@ p {
     padding: 18px;
   }
 }
+
+
+/* 全站正文图片大图预览 */
+main img.zoomable {
+  cursor: zoom-in;
+  transition: filter .2s ease, transform .2s ease;
+}
+
+main img.zoomable:hover {
+  filter: brightness(.96);
+}
+
+main img.zoomable:focus-visible {
+  outline: 3px solid rgba(139, 30, 30, .45);
+  outline-offset: 4px;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  background: rgba(13, 11, 9, .90);
+  backdrop-filter: blur(9px);
+}
+
+.image-modal.open {
+  display: flex;
+}
+
+.image-modal-content {
+  max-width: min(96vw, 1600px);
+  max-height: 90vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 24px 90px rgba(0, 0, 0, .52);
+  animation: imagePreviewIn .22s ease-out;
+}
+
+.image-modal-close {
+  position: fixed;
+  right: 22px;
+  top: 18px;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(255, 255, 255, .38);
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .34);
+  color: #fff;
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.image-modal-tip {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  padding: 8px 15px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .35);
+  color: rgba(255, 255, 255, .78);
+  font-size: .84rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@keyframes imagePreviewIn {
+  from { opacity: 0; transform: scale(.975); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 680px) {
+  .image-modal {
+    padding: 12px;
+  }
+
+  .image-modal-content {
+    max-width: 98vw;
+    max-height: 86vh;
+    border-radius: 8px;
+  }
+
+  .image-modal-close {
+    right: 12px;
+    top: 12px;
+    width: 43px;
+    height: 43px;
+  }
+
+  .image-modal-tip {
+    bottom: 10px;
+    font-size: .74rem;
+  }
+}
